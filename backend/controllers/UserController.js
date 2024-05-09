@@ -1,4 +1,4 @@
-const getToken = require('../helpers/get-token')
+
 const createUserToken = require('../helpers/create-user-token')
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
@@ -107,17 +107,14 @@ module.exports = class UserController{
      }
 
      // User verification by token
-     static async checkUser(req, res) {
+     /*static async checkUser(req, res) {
 
         let currentUser
         
 
         if(req.headers.authorization) {
 
-            const token = getToken(req)
-            const decoded = jwt.verify(token, 'nossosecret')
-
-            currentUser = await User.findById(decoded.id)
+            currentUser = await User.findById(req.id)
 
             currentUser.password = undefined
 
@@ -126,7 +123,7 @@ module.exports = class UserController{
         }
 
         res.status(200).send(currentUser)
-     }
+     }*/
 
      static async getUserById(req, res) {
 
@@ -169,19 +166,26 @@ module.exports = class UserController{
      }
 
      static async deleteUser(req, res) {
-        const userId = req.params.id
-
-        const user = await User.findById(userId);
-
-        if (!user){
-            res.status(404).json({ message: 'Esse usuário não existe!'})
-            return
+        const userId = req.params.id;
+    
+        // Verificar se o ID do usuário que está autenticado é o mesmo que está sendo solicitado para exclusão
+        if (req.userId !== userId) {
+            return res.status(403).json({ message: 'Você não tem permissão para excluir este usuário!' });
         }
+    
         try {
-            await user.deleteOne({_id: userId})
-            res.status(200).json({ message: 'Usuário deletado com sucesso!'})
-        }catch (error) {
-            res.status(500).json({ error: error})
+            const user = await User.findById(userId);
+    
+            // Verificar se o usuário existe
+            if (!user) {
+                return res.status(404).json({ message: 'Esse usuário não existe!' });
+            }
+    
+            await user.deleteOne({_id: userId});
+            return res.status(200).json({ message: 'Usuário deletado com sucesso!' });
+        } catch (error) {
+            return res.status(500).json({ error: error });
         }
-     }
+    }
+    
 }
