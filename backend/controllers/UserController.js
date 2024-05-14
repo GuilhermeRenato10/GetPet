@@ -106,7 +106,7 @@ module.exports = class UserController{
         await createUserToken(user, req, res)
      }
 
-     // User verification by token
+     //User verification by token
      /*static async checkUser(req, res) {
 
         let currentUser

@@ -35,3 +35,70 @@ Configure as variáveis de ambiente no arquivo .env.
 Inicie o servidor com npm start.
 Contribuindo
 Sinta-se à vontade para contribuir com este projeto. Basta fazer um fork e enviar um pull request com suas melhorias.
+
+
+Documentação:
+
+Gets User:
+/users/:id
+
+Post User:
+/users/register
+body:
+{
+    "name" : "Guilherme Macedo",
+    "email" : "gr@gmail.com",
+    "password" : "teste123",
+    "phone" : "1499778811",
+    "confirmpassword" : "teste123"
+}
+
+/users/login
+body:
+{
+    "email": "Marcelo14@teste.com",
+    "password": "teste123"
+}
+
+Patch User:
+/users/edit/:id
+body:
+{
+    "name": "Tarumoto",
+    "phone": "14997707941"
+}
+
+DEL User:
+/users/:id
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Gets Pets:
+/pets/
+/pets/mypets
+/pets/:id
+
+Post Pets:
+/pets/create
+body:
+{
+    "name" : "Any",
+    "age"   : 12,
+    "weight" : 5,
+    "color" : "Marrom Claro"
+}
+
+Patch Pets:
+/pets/:id
+body: 
+{
+    "name" : "pet att",
+    "age" : 5,
+    "weight" : 14,
+    "color" : "branco"
+}
+
+/pets/schedule/:id
+
+/pets/conclude/:id
+
