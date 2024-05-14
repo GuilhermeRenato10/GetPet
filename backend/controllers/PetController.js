@@ -259,6 +259,7 @@ module.exports = class PetController {
             // Não estou entendendo o comportamento do mongodb nesse pet.findOne, por que quando ele não encontra um ID dentro do banco cadastrado
             // ele volta um erro imenso ao inves de um array vazio, o que atrapalha toda a lógica, alem disso, mesmo quando ele encontra um ID
             // ele volta resultados no modo new objectID, que não estou conseguindo equiparar e diferenciar eles para dar andamento na lógica
+            // por isso fiz try catch, quando ele retornava o erro, ele quebrava aplicação
 
             // }
             const user = await User.findById(req.id)
@@ -267,7 +268,7 @@ module.exports = class PetController {
             pet.available = false
             await Pet.findByIdAndUpdate(id , pet)
             // res.status(200).json({ message: 'Parabéns!! O ciclo de adoção foi realizado com sucesso!'})
-            
+
             await Pet.findByIdAndUpdate(id, pet)
             res.status(200).json({ message: `Seu Pet ${pet.name} foi adotado por ${pet.adopter.name}`})
         }catch {
